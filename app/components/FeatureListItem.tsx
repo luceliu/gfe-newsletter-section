@@ -13,7 +13,7 @@ export default function FeatureListItem({
           className="w-4 h-4"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2"
+          strokeWidth="3"
           strokeLinecap="round"
           strokeLinejoin="round"
         >
