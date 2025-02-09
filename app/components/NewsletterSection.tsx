@@ -3,16 +3,20 @@ import FeatureListItem from "./FeatureListItem";
 import EmailInput from "./EmailInput";
 import Image from "next/image";
 
-export interface INewsletterSectionProps {}
-
-export default function NewsletterSection(props: INewsletterSectionProps) {
+export default function NewsletterSection() {
   return (
-    <div className="flex flex-col bg-white m-4 p-4 w-screen rounded tablet:rounded-md desktop:px-16 desktop:py-24 desktop:flex-row desktop:items-center desktop:max-h-screen">
+    <div
+      className="flex flex-col bg-white m-4 p-4 w-screen rounded 
+    tablet:rounded-md 
+    desktop:px-16 desktop:py-24 desktop:flex-row desktop:items-center desktop:max-h-screen"
+    >
       <div className="desktop:w-[50%]">
-        <h1 className="font-semibold text-3xl my-4 text-neutral-900 tablet:text-5xl desktop:w-[592px]">
+        <h1
+          className="font-semibold text-3xl my-4 text-neutral-900 
+        tablet:text-5xl desktop:w-[592px]"
+        >
           Get the finest curated abstracts delivered weekly to your inbox
         </h1>
-
         <div className="my-8 desktop:my-16">
           <FeatureListItem>
             Exclusive access to new abstract images and collections
@@ -41,7 +45,10 @@ export default function NewsletterSection(props: INewsletterSectionProps) {
           </button>
         </div>
       </div>
-      <div className="min-w-[311px] my-4 tablet:my-16 flex flex-grow desktop:flex-grow-0 desktop:w-[592px] desktop:h-[608px]">
+      <div
+        className="min-w-[311px] my-4 tablet:my-16 flex flex-grow 
+      desktop:flex-grow-0 desktop:w-[592px] desktop:h-[608px]"
+      >
         <Image
           src="/abstract.png"
           alt="abstract wallpapers sample"
