@@ -1,9 +1,43 @@
-import * as React from "react";
+"use client";
+
+import { useEffect, useState } from "react";
 import FeatureListItem from "./FeatureListItem";
 import EmailInput from "./EmailInput";
 import Image from "next/image";
 
 export default function NewsletterSection() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [emailVal, setEmailVal] = useState<string>("");
+  const [isEmailValid, setIsEmailValid] = useState<boolean>(false);
+
+  const handleSubscribeClick = async () => {
+    setLoading(true);
+
+    try {
+      const response = await fetch(
+        "https://www.greatfrontend.com/api/projects/challenges/newsletter",
+        {
+          method: "POST",
+          body: JSON.stringify({ email: emailVal }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Error fetching data:", error.message);
+        setError(error.message);
+      } else {
+        console.error("An unknown error occurred:", error);
+        setError("An unknown error occurred");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div
       className="flex flex-col bg-white m-4 p-4 w-screen rounded 
@@ -30,7 +64,12 @@ export default function NewsletterSection() {
         </div>
         <div className="flex flex-col tablet:flex-row">
           <div className="flex flex-col">
-            <EmailInput />
+            <EmailInput
+              email={emailVal}
+              setEmail={setEmailVal}
+              isEmailValid={isEmailValid}
+              setIsEmailValid={setIsEmailValid}
+            />
             <p className="text-neutral-600 my-2">
               We only send you the best! No spam.
             </p>
@@ -40,6 +79,7 @@ export default function NewsletterSection() {
       active:ring-4 active:ring-indigo-50 disabled:bg-neutral-100 disabled:text-neutral-400
       tablet:w-[98px] tablet:h-[40px] flex items-center justify-center tablet:my-0 tablet:mx-4
       "
+            onClick={handleSubscribeClick}
           >
             Subscribe
           </button>

@@ -2,16 +2,31 @@
 
 import { useState, ChangeEvent } from "react";
 
-export default function EmailInput() {
-  const [email, setEmail] = useState<string>("");
-  const [isValid, setIsValid] = useState<boolean>(true);
+type EmailInputProps = {
+  email: string;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
+  isEmailValid: boolean;
+  setIsEmailValid: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function EmailInput({
+  email,
+  setEmail,
+  isEmailValid,
+  setIsEmailValid,
+}: EmailInputProps) {
+  const [hasUserTyped, setHasUserTyped] = useState<boolean>(false);
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!hasUserTyped) {
+      setHasUserTyped(true); // Mark that the user has started typing
+    }
+
     const value = e.target.value;
     setEmail(value);
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    setIsValid(emailRegex.test(value));
+    setIsEmailValid(emailRegex.test(value));
   };
 
   const invalidFormatMsg = "Please enter a valid email address.";
@@ -27,13 +42,13 @@ export default function EmailInput() {
         onChange={handleEmailChange}
         placeholder="Enter your email"
         className={`w-full text-neutral-900 px-3 py-2 border ${
-          isValid ? "border-gray-300" : "border-red-500"
+          isEmailValid || !hasUserTyped ? "border-gray-300" : "border-red-500"
         } rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500`}
-        aria-invalid={!isValid}
+        aria-invalid={!isEmailValid}
         aria-describedby="email-error"
         required
       />
-      {!isValid && (
+      {!isEmailValid && hasUserTyped && (
         <p id="email-error" className="text-sm text-red-600">
           {email ? invalidFormatMsg : emailRequiredMsg}
         </p>
