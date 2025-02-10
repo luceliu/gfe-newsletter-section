@@ -34,11 +34,15 @@ export default function EmailInput({
 
   return (
     <div className="space-y-2 tablet:w-[334px]">
+      <label htmlFor="email" className="text-neutral-900">
+        Email:
+      </label>
       <input
         type="email"
         id="email"
         name="email"
         value={email}
+        autoComplete="email"
         onChange={handleEmailChange}
         placeholder="Enter your email"
         className={`w-full text-neutral-900 px-3 py-2 border ${

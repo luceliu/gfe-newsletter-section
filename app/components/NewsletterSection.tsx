@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import FeatureListItem from "./FeatureListItem";
 import EmailInput from "./EmailInput";
 import Image from "next/image";
@@ -17,9 +17,11 @@ export default function NewsletterSection() {
     "Failed to subscribe. Please ensure your email is correct or try again later."
   );
 
-  const handleSubscribeClick = async () => {
+  const handleSubscriptionSubmission = async (
+    e: FormEvent<HTMLFormElement>
+  ) => {
+    e.preventDefault();
     setLoading(true);
-    setIsEmailSubmitted(true);
 
     try {
       const response = await fetch(
@@ -43,6 +45,7 @@ export default function NewsletterSection() {
       }
     } finally {
       setLoading(false);
+      setIsEmailSubmitted(true);
     }
   };
 
@@ -77,28 +80,33 @@ export default function NewsletterSection() {
               Regular doses of artistic inspiration
             </FeatureListItem>
           </div>
-          <div className="flex flex-col tablet:flex-row">
-            <div className="flex flex-col">
-              <EmailInput
-                email={emailVal}
-                setEmail={setEmailVal}
-                isEmailValid={isEmailValid}
-                setIsEmailValid={setIsEmailValid}
-              />
-              <p className="text-neutral-600 my-2">
-                We only send you the best! No spam.
-              </p>
-            </div>
-            <button
-              className="px-3.5 py-2.5 my-2 rounded bg-indigo-700 hover:bg-indigo-800 
+          <form onSubmit={handleSubscriptionSubmission}>
+            <div className="flex flex-col tablet:flex-row">
+              {/* <form onSubmit={handleSubscriptionSubmission}> */}
+              <div className="flex flex-col">
+                <EmailInput
+                  email={emailVal}
+                  setEmail={setEmailVal}
+                  isEmailValid={isEmailValid}
+                  setIsEmailValid={setIsEmailValid}
+                />
+                <p className="text-neutral-600 my-2">
+                  We only send you the best! No spam.
+                </p>
+              </div>
+              <button
+                type="submit"
+                className="px-3.5 py-2.5 my-2 rounded bg-indigo-700 hover:bg-indigo-800 
       active:ring-4 active:ring-indigo-50 disabled:bg-neutral-100 disabled:text-neutral-400
-      tablet:w-[98px] tablet:h-[40px] flex items-center justify-center tablet:my-0 tablet:mx-4
+      tablet:w-[98px] tablet:h-[40px] flex items-center justify-center tablet:my-0 tablet:mx-4 tablet:mt-8
       "
-              onClick={handleSubscribeClick}
-            >
-              {loading ? "Loading" : "Subscribe"}
-            </button>
-          </div>
+                disabled={!isEmailValid || loading}
+                // onClick={handleSubscriptionSubmission}
+              >
+                {loading ? "Loading" : "Subscribe"}
+              </button>
+            </div>
+          </form>
         </div>
         <div
           className="min-w-[311px] my-4 tablet:my-16 flex flex-grow 
@@ -110,6 +118,7 @@ export default function NewsletterSection() {
             width={592}
             height={608}
             layout="responsive"
+            priority={true}
           />
         </div>
       </div>

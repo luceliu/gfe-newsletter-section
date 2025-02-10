@@ -11,6 +11,7 @@ const Notification: React.FunctionComponent<INotificationProps> = ({
 }) => {
   return (
     <div
+      aria-live="polite"
       className={`mx-auto inset-x-0 top-[40px] flex items-center w-[344px] rounded-full 
   ${success ? "bg-green-50 " : "bg-red-50"}
       fixed py-1 pr-12 pl-1
